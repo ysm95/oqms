@@ -6,6 +6,7 @@ Implemented in the current application:
 
 - One coherent QMS product shell with role-aware top navigation, global search, create menu, Help, notifications, My Work, and progressive module disclosure
 - Observation workflow for Unsafe Act and Unsafe Condition reporting, HSE review and Action Tracker follow-up
+- Permit Issuing / Control of Work is added to the agreed scope as the next Safety module, covering permit request, risk assessment, isolation controls, approvals, live permit monitoring, suspension, extension, shift handover, closeout, audit trail, and links to actions, training, contractors, documents, and risk
 - Reporter-only experience with Home, Report, My Reports, Notifications, and Help; reporter users do not see internal workflow, investigation, CAPA, internal comments, or administration
 - Central Reports workspace with report screening, comments, actions, attachments, related records, history, print, accept, and reject
 - Accepted reports create exactly one incident transactionally; rejected reports remain reporting records only
@@ -33,3 +34,4 @@ Remaining production dependencies:
 - Configure supervised queue workers and the scheduler on the VPS.
 - Connect real mail, SSO/Entra, integration APIs, backup storage, and approved secured AI provider credentials.
 - Complete UAT with real controlled procedures and organization-specific taxonomies before declaring regulated production go-live.
+- Convert the Permit Issuing / Control of Work scope into approved workflow diagrams, permission matrix, form definitions, test cases, and implementation backlog before development begins.

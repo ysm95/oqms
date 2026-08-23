@@ -15,6 +15,7 @@ The product includes:
 - Actions
 - Investigations
 - Risk register
+- Permit Issuing / Control of Work scope for high-risk work authorization
 - Audits and inspections
 - NCR and CAPA
 - Controlled documents
@@ -34,6 +35,12 @@ The current UAT focus is the Observation workflow:
 3. Complete the page-based form.
 4. HSE reviews the observation.
 5. HSE creates actions only when follow-up is needed.
+
+The next agreed scope item is Permit Issuing / Control of Work. It will be planned as a Safety module connected to risk assessment, isolation controls, training, contractors, documents, audit trail, actions, and mobile field review. See:
+
+```text
+docs/QMS_PERMIT_ISSUING_SCOPE.md
+```
 
 ## Local Setup
 
