@@ -16,7 +16,7 @@
       ['label' => 'Home', 'icon' => 'HM', 'route' => 'qms.dashboard', 'active' => ['qms.*']],
       ['label' => 'My Work', 'icon' => 'MW', 'route' => 'my-work.index', 'active' => ['my-work.*']],
       ['label' => 'Reports', 'icon' => 'RP', 'route' => 'reporting.index', 'active' => ['reporting.*', 'public-reports.*'], 'roles' => ['Super Admin', 'Safety Admin', 'Quality Admin', 'HSE Admin']],
-      ['label' => 'Safety', 'icon' => 'SF', 'route' => 'observations.index', 'active' => ['observations.*', 'incidents.*', 'occurrences.*', 'investigations.*', 'risks.*', 'safety-promotions.*'], 'roles' => ['Super Admin', 'Safety Admin', 'HSE Admin', 'Action User']],
+      ['label' => 'Safety', 'icon' => 'SF', 'route' => 'observations.index', 'active' => ['observations.*', 'permits.*', 'incidents.*', 'occurrences.*', 'investigations.*', 'risks.*', 'safety-promotions.*'], 'roles' => ['Super Admin', 'Safety Admin', 'HSE Admin', 'Action User']],
       ['label' => 'Quality', 'icon' => 'QL', 'route' => 'nonconformances.index', 'active' => ['nonconformances.*', 'capa.*', 'actions.*', 'objectives.*', 'suppliers.*'], 'roles' => ['Super Admin', 'Quality Admin']],
       ['label' => 'Assurance', 'icon' => 'AS', 'route' => 'audits.index', 'active' => ['audits.*', 'inspections.*', 'compliance.*', 'management-reviews.*'], 'roles' => ['Super Admin', 'Quality Admin', 'Safety Admin']],
       ['label' => 'Knowledge', 'icon' => 'KN', 'route' => 'documents.index', 'active' => ['documents.*', 'training.*'], 'roles' => ['Super Admin', 'Quality Admin', 'Safety Admin', 'HSE Admin']],
@@ -30,6 +30,7 @@
       ],
       'Safety' => [
         ['Observations', 'observations.index'],
+        ['Permits', 'permits.index'],
         ['Incidents', 'incidents.index'],
         ['Occurrences', 'occurrences.index'],
         ['Investigations', 'investigations.index'],
@@ -100,6 +101,7 @@
             <summary class="primary-button">Create</summary>
             <div>
               <a href="{{ route('observations.create') }}"><span class="menu-icon">OBS</span>Observation</a>
+              <a href="{{ route('permits.create') }}">Permit</a>
               <a href="{{ route('reporting.index') }}#new-report">Report</a>
               <a href="{{ route('incidents.index') }}">Incident</a>
               <a href="{{ route('inspections.index') }}">Inspection</a>

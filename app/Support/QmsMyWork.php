@@ -7,6 +7,7 @@ use App\Models\QmsAudit;
 use App\Models\QmsDocument;
 use App\Models\QmsIncident;
 use App\Models\QmsInvestigation;
+use App\Models\QmsPermit;
 use App\Models\QmsPublicReport;
 use App\Models\QmsReport;
 use App\Models\QmsSupplier;
@@ -20,6 +21,7 @@ class QmsMyWork
         return collect()
             ->merge(self::reports())
             ->merge(self::incidents())
+            ->merge(self::permits())
             ->merge(self::actions())
             ->merge(self::investigations())
             ->merge(self::audits())
@@ -85,6 +87,27 @@ class QmsMyWork
                 url: route('incidents.show', $incident),
                 source: $incident->source_report_reference,
                 createdAt: $incident->created_at,
+            ));
+    }
+
+    private static function permits(): Collection
+    {
+        return QmsPermit::query()
+            ->whereNotIn('status', ['Closed', 'Cancelled'])
+            ->latest()
+            ->limit(30)
+            ->get()
+            ->map(fn (QmsPermit $permit) => self::item(
+                module: 'Permit',
+                reference: $permit->reference,
+                title: $permit->title,
+                status: $permit->status,
+                priority: $permit->risk_rating,
+                owner: $permit->current_approver ?: ($permit->owner ?: 'Unassigned'),
+                dueAt: $permit->planned_end_at ?: $permit->planned_start_at,
+                url: route('permits.show', $permit),
+                source: $permit->permit_type,
+                createdAt: $permit->created_at,
             ));
     }
 

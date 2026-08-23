@@ -16,6 +16,22 @@ Safety > Permits
 
 It must remain part of the single QMS product shell. It should not become a separate application or create a nested navigation system.
 
+## Current Implementation
+
+The first production-oriented slice is implemented in the Laravel application:
+
+- permit data model and independent `PTW` numbering
+- Safety > Permits workspace in the single QMS shell
+- guided permit request form with Work Information, Description and Risk, Controls, Approval, and Review pages
+- permit board and searchable permit list
+- lifecycle actions for draft, submit, approve, issue, suspend, extend, close, and cancel
+- permit activity history and audit trail
+- My Work visibility for open permits
+- reporter users blocked from the internal permit workspace
+- feature tests for creation, lifecycle history, reporter isolation, and My Work visibility
+
+The remaining items below are the approved expansion backlog, not a claim that every advanced control is already complete.
+
 ## Core Permit Types
 
 Initial permit types:
@@ -214,17 +230,17 @@ The first release should not include:
 - direct industrial control-system commands
 - copied third-party vendor screen designs
 
-## First Implementation Backlog
+## Remaining Implementation Backlog
 
-Recommended first backlog:
+Recommended backlog:
 
-1. Permit data model and numbering
-2. Permit type configuration
-3. Guided permit request form
-4. Approval workflow
-5. Permit board and saved views
-6. Issue / suspend / extend / close actions
-7. Audit trail and notification events
-8. Link permits to actions, documents, training, contractors, observations, and risks
-9. Feature tests for lifecycle and authorization boundaries
-10. Mobile-friendly field view
+1. Permit type configuration in Administration instead of code lists
+2. Saved views, delegation and escalation notifications
+3. Formal multi-role signature matrix by site, area, permit type and risk
+4. Conflict checks for simultaneous operations and overlapping permits
+5. Competency verification against Training records
+6. Controlled document links and required procedure checks
+7. Action creation from field checks and closeout findings
+8. QR lookup and mobile field acknowledgement
+9. Shift handover and permit revalidation
+10. Browser tests for the full field workflow

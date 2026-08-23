@@ -17,7 +17,7 @@ Start from My Work. It shows assigned reviews, actions, overdue items and notifi
 - Home: main dashboard
 - My Work: assigned work
 - Reports: submitted reports and screening
-- Safety: observations, incidents, investigations, risks and lessons learned
+- Safety: observations, permits, incidents, investigations, risks and lessons learned
 - Quality: NCR, CAPA, objectives, suppliers and actions
 - Assurance: audits, inspections and compliance
 - Analytics: trends and operational dashboards
@@ -77,6 +77,38 @@ Each action should include:
 - Priority
 - Evidence requirement
 - Verification requirement
+
+## Permit Issuing
+
+Use Permit Issuing when work needs formal control before it starts, such as hot work, confined space, electrical isolation, lifting, excavation, work at height or contractor work.
+
+1. Select Create.
+2. Select Permit.
+3. Complete the pages:
+   - Work Information
+   - Description and Risk
+   - Controls
+   - Approval
+   - Review and Submit
+4. Save Draft if the details are not ready.
+5. Submit for Review when the work, risks and controls are clear.
+
+## Permit Review and Field Control
+
+Open Safety > Permits to search, filter and review the permit board.
+
+Permit reviewers can move the permit through:
+
+- Pending Review
+- Approved
+- Active
+- Suspended
+- Closed
+- Cancelled
+
+Do not issue a permit until the planned work window, hazards, isolation needs, gas testing, fire watch, standby person, PPE, training and linked procedures are understood.
+
+Suspend the permit if conditions change. Close the permit only after the work area is checked and the closeout summary is recorded.
 
 ## Reporter Visibility
 

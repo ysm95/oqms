@@ -21,6 +21,7 @@ use App\Http\Controllers\Qms\OccurrenceController;
 use App\Http\Controllers\Qms\ObservationController;
 use App\Http\Controllers\Qms\ObjectiveController;
 use App\Http\Controllers\Qms\ManagementReviewController;
+use App\Http\Controllers\Qms\PermitController;
 use App\Http\Controllers\Qms\PlatformController;
 use App\Http\Controllers\Qms\PublicReportController;
 use App\Http\Controllers\Qms\NonconformanceController;
@@ -79,6 +80,12 @@ Route::middleware(['auth', 'internal.qms'])->group(function () {
     Route::get('observations/{observation}', [ObservationController::class, 'show'])->name('observations.show');
     Route::patch('observations/{observation}/review', [ObservationController::class, 'review'])->name('observations.review');
     Route::post('observations/{observation}/actions', [ObservationController::class, 'storeAction'])->name('observations.actions.store');
+
+    Route::get('permits', [PermitController::class, 'index'])->name('permits.index');
+    Route::get('permits/create', [PermitController::class, 'create'])->name('permits.create');
+    Route::post('permits', [PermitController::class, 'store'])->name('permits.store');
+    Route::get('permits/{permit}', [PermitController::class, 'show'])->name('permits.show');
+    Route::patch('permits/{permit}/transition', [PermitController::class, 'transition'])->name('permits.transition');
 
     Route::resource('occurrences', OccurrenceController::class)->only(['index', 'create', 'store', 'show']);
     Route::patch('occurrences/{occurrence}/advance', [OccurrenceController::class, 'advance'])->name('occurrences.advance');
