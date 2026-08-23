@@ -1,10 +1,11 @@
 # QMS Implementation Status
 
-This Laravel QMS implementation is aligned to the BRSD and the v7 complete redesign contract. The local working tree is the implementation source of truth.
+This Laravel QMS implementation is the active product baseline for qms.ysaidea.com. The local working tree is the implementation source of truth.
 
 Implemented in the current application:
 
 - One coherent QMS product shell with role-aware top navigation, global search, create menu, Help, notifications, My Work, and progressive module disclosure
+- Observation workflow for Unsafe Act and Unsafe Condition reporting, HSE review and Action Tracker follow-up
 - Reporter-only experience with Home, Report, My Reports, Notifications, and Help; reporter users do not see internal workflow, investigation, CAPA, internal comments, or administration
 - Central Reports workspace with report screening, comments, actions, attachments, related records, history, print, accept, and reject
 - Accepted reports create exactly one incident transactionally; rejected reports remain reporting records only

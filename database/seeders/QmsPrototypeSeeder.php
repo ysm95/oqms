@@ -63,6 +63,7 @@ class QmsPrototypeSeeder extends Seeder
     public function run(): void
     {
         QmsOccurrence::updateOrCreate(['reference' => 'QMS-2026-00435'], [
+            'record_family' => 'Occurrence',
             'report_key' => 'ground-occurrence',
             'title' => 'Unsafe condition near scaffolding',
             'event_title' => 'Unsafe condition near scaffolding',
@@ -88,6 +89,51 @@ class QmsPrototypeSeeder extends Seeder
             'immediate_corrective_action' => 'Advised crew to display signage and barricade the area.',
             'feedback_to_reporter' => 'HSE review initiated.',
             'event_date' => now()->toDateString(),
+            'reported_at' => now(),
+        ]);
+
+        QmsOccurrence::updateOrCreate(['reference' => 'OBS-2026-000245'], [
+            'record_family' => 'Observation',
+            'report_key' => 'observation',
+            'title' => 'Missing barricade at temporary work area',
+            'event_title' => 'Missing barricade at temporary work area',
+            'type' => 'Observation',
+            'observation_type' => 'Unsafe Condition',
+            'area' => 'Ground Operations',
+            'unit' => 'MCT',
+            'department_name' => 'HSE',
+            'location' => 'Ramp',
+            'area_fleet' => 'Ground Operations',
+            'exact_location' => 'Gate 4 maintenance access',
+            'reported_by' => 'Yahya Al Naaimi',
+            'observer' => 'Yahya Al Naaimi',
+            'description' => 'Temporary barricade was missing from an active work area and people could enter without warning.',
+            'potential_consequence' => 'Personnel could enter the work area and be exposed to moving equipment or maintenance activity.',
+            'status' => 'Submitted',
+            'workflow_stage' => 'HSE Review',
+            'risk_rating' => 'Medium',
+            'review_decision' => null,
+            'reviewer_comments' => null,
+            'reviewer_name' => null,
+            'reviewed_at' => null,
+            'reporter_visible_message' => null,
+            'action_required' => false,
+            'confidential' => false,
+            'mor' => false,
+            'event_categories' => ['Observation', 'Unsafe Condition'],
+            'aircraft_type' => null,
+            'aircraft_registration' => null,
+            'flight_number' => null,
+            'flight_cancelled' => false,
+            'personnel_involved' => [],
+            'flight_plan_details' => null,
+            'action_taken' => ['Supervisor informed'],
+            'immediate_corrective_action' => 'Area supervisor was informed and asked to restore the barricade.',
+            'temporary_control' => 'Temporary warning cone placed until proper barricade is restored.',
+            'feedback_to_reporter' => null,
+            'event_date' => now()->toDateString(),
+            'observed_on' => now()->toDateString(),
+            'observed_at' => now()->format('H:i'),
             'reported_at' => now(),
         ]);
 
@@ -507,7 +553,7 @@ class QmsPrototypeSeeder extends Seeder
                 'sections' => ['Header', 'Commander voyage details', 'Aircraft and flight details', 'Action taken'],
                 'conditional' => ['flight_fields_when' => 'aviation report type'],
             ],
-            'change_note' => 'Initial BRSD/DOR-aligned controlled form definition.',
+            'change_note' => 'Initial controlled form definition.',
         ]);
 
         QmsFormDefinition::updateOrCreate(['code' => 'FORM-PUBLIC-001'], [
@@ -748,6 +794,7 @@ class QmsPrototypeSeeder extends Seeder
         foreach ([
             ['NUM-REP', 'Reporting', 'REP'],
             ['NUM-INC', 'Incidents', 'INC'],
+            ['NUM-OBS', 'Observations', 'OBS'],
             ['NUM-NCR', 'Non-Conformance', 'NCR'],
             ['NUM-AUD', 'Audits', 'AUD'],
             ['NUM-ACT', 'Actions', 'ACT'],
@@ -769,7 +816,7 @@ class QmsPrototypeSeeder extends Seeder
             'status' => 'Validated',
             'payload' => ['includes' => ['forms', 'workflows', 'notifications', 'numbering', 'permission templates']],
             'effective_date' => now()->toDateString(),
-            'validation_summary' => 'Initial baseline dependency checks completed for prototype production foundation.',
+            'validation_summary' => 'Baseline dependency checks completed for the production foundation.',
         ]);
 
         QmsRetentionRule::updateOrCreate(['code' => 'RET-SAFETY-STD'], [

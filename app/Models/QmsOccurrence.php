@@ -16,6 +16,9 @@ class QmsOccurrence extends Model
         'personnel_involved' => 'array',
         'action_taken' => 'array',
         'event_date' => 'date',
+        'observed_on' => 'date',
         'reported_at' => 'datetime',
+        'reviewed_at' => 'datetime',
+        'action_required' => 'boolean',
     ];
 }

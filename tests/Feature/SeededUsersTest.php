@@ -32,7 +32,7 @@ class SeededUsersTest extends TestCase
         }
     }
 
-    public function test_dashboard_route_loads_the_qms_prototype(): void
+    public function test_dashboard_route_loads_the_qms_application(): void
     {
         $this->seed();
 

@@ -12,7 +12,7 @@
     <section class="login-hero">
       <p class="eyebrow">QMS.ysaidea.com</p>
       <h1>Quality, Safety, Risk and Improvement</h1>
-      <p>Enterprise prototype aligned to the BRSD: occurrence reporting, workflow visibility, CAPA, investigation, roles, departments and management dashboard.</p>
+      <p>One workspace for reporting, observations, HSE review, actions, investigations, CAPA, assurance and management visibility.</p>
     </section>
     <form class="login-card" method="POST" action="{{ route('login.store') }}">
       @csrf

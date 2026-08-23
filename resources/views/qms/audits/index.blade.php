@@ -2,7 +2,7 @@
 
 @section('content')
 <section class="view active-view">
-  <div class="page-title"><div><p class="eyebrow">Safety assurance</p><h1>Audits</h1></div><span class="status-pill success">BRSD assurance</span></div>
+  <div class="page-title"><div><p class="eyebrow">Safety assurance</p><h1>Audits</h1></div><span class="status-pill success">Assurance ready</span></div>
 
   <form class="filter-bar" method="GET" action="{{ route('audits.index') }}">
     <input name="search" type="search" value="{{ request('search') }}" placeholder="Search audit by %text%, standard, auditor">

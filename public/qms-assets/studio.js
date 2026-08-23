@@ -164,4 +164,48 @@
 
   document.querySelectorAll('[data-form-studio]').forEach(wireFormStudio);
   document.querySelectorAll('[data-workflow-studio]').forEach(wireWorkflowStudio);
+
+  document.querySelectorAll('[data-observation-wizard]').forEach((wizard) => {
+    const buttons = [...wizard.querySelectorAll('[data-step-button]')];
+    const pages = [...wizard.querySelectorAll('[data-step-page]')];
+    const previous = wizard.querySelector('[data-step-prev]');
+    const next = wizard.querySelector('[data-step-next]');
+    let active = 0;
+
+    const show = (index) => {
+      active = Math.max(0, Math.min(index, pages.length - 1));
+      buttons.forEach((button, item) => button.classList.toggle('active', item === active));
+      pages.forEach((page, item) => page.classList.toggle('active', item === active));
+      if (previous) previous.disabled = active === 0;
+      if (next) next.hidden = active === pages.length - 1;
+    };
+
+    buttons.forEach((button, index) => button.addEventListener('click', () => show(index)));
+    previous?.addEventListener('click', () => show(active - 1));
+    next?.addEventListener('click', () => show(active + 1));
+    show(0);
+  });
+
+  document.querySelectorAll('[data-record-tabs]').forEach((record) => {
+    const tabs = [...record.querySelectorAll('[data-record-tab]')];
+    const panels = [...record.querySelectorAll('[data-record-panel]')];
+    const show = (index) => {
+      tabs.forEach((tab, item) => tab.classList.toggle('active', item === index));
+      panels.forEach((panel, item) => panel.classList.toggle('active', item === index));
+    };
+
+    tabs.forEach((tab, index) => tab.addEventListener('click', () => show(index)));
+    record.querySelectorAll('[data-record-jump]').forEach((jump) => {
+      jump.addEventListener('click', (event) => {
+        event.preventDefault();
+        show(Number(jump.dataset.recordJump || 0));
+      });
+    });
+  });
+
+  document.querySelectorAll('[data-open-action-drawer]').forEach((button) => {
+    button.addEventListener('click', () => {
+      button.closest('[data-record-panel]')?.querySelector('[data-action-drawer] input, [data-action-drawer] textarea, [data-action-drawer] select')?.focus();
+    });
+  });
 })();

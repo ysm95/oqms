@@ -1,74 +1,103 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# QMS
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Quality, Safety, Risk and Improvement platform for qms.ysaidea.com.
 
-## About Laravel
+## Overview
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+QMS is a Laravel application for reporting, reviewing and managing safety, quality and assurance work.
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+The product includes:
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+- Reporter experience for safety and quality concerns
+- Observation workflow for Unsafe Act and Unsafe Condition reporting
+- Reports workspace
+- Incidents
+- Actions
+- Investigations
+- Risk register
+- Audits and inspections
+- NCR and CAPA
+- Controlled documents
+- Training
+- Compliance and standards registry
+- Administration control center
+- Form Studio
+- Workflow Studio
+- Notification and report designers
 
-## Learning Laravel
+## Current Focus
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+The current UAT focus is the Observation workflow:
 
-In addition, [Laracasts](https://laracasts.com) contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+1. Create Observation.
+2. Choose Unsafe Act or Unsafe Condition.
+3. Complete the page-based form.
+4. HSE reviews the observation.
+5. HSE creates actions only when follow-up is needed.
 
-You can also watch bite-sized lessons with real-world projects on [Laravel Learn](https://laravel.com/learn), where you will be guided through building a Laravel application from scratch while learning PHP fundamentals.
-
-## Agentic Development
-
-Laravel's predictable structure and conventions make it ideal for AI coding agents like Claude Code, Cursor, and GitHub Copilot. Install [Laravel Boost](https://laravel.com/docs/ai) to supercharge your AI workflow:
+## Local Setup
 
 ```bash
-composer require laravel/boost --dev
-
-php artisan boost:install
+composer install
+npm install
+cp .env.example .env
+php artisan key:generate
+php artisan migrate --seed
+npm run build
+php artisan serve
 ```
 
-Boost provides your agent 15+ tools and skills that help agents build Laravel applications while following best practices.
+## Test
 
-## Contributing
+```bash
+php artisan test
+npm run build
+```
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+## Production
 
-## Code of Conduct
-
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
-
-## Security Vulnerabilities
-
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
-
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
-
-## QMS implementation status
-
-This repository includes the first Laravel prototype for QMS. It references the BRSD blueprint in:
+Use the production runbook:
 
 ```text
-docs/QMS_ysaidea_BRSD_and_Architecture_Blueprint.md
+docs/PRODUCTION_RUNBOOK.md
 ```
 
-See `docs/IMPLEMENTATION_STATUS.md` for demo users, implemented prototype modules, and remaining enterprise roadmap items.
+Production must use:
 
-Hostinger VPS deployment code is available in:
+```text
+APP_ENV=production
+APP_DEBUG=false
+APP_URL=https://qms.ysaidea.com
+```
+
+Do not deploy with local SQLite settings unless explicitly approved.
+
+## VPS Deployment
+
+The Hostinger deployment script is available at:
 
 ```text
 deploy/hostinger_publish_qms.sh
 ```
+
+For the current VPS folder, deploy from:
+
+```bash
+cd /var/www/miniworld-pro/current/special-need
+git pull origin main
+composer install --no-dev --optimize-autoloader
+npm ci || npm install
+npm run build
+php artisan optimize:clear
+php artisan migrate --force
+php artisan db:seed --class=QmsReporterProductSeeder --force
+php artisan config:cache
+php artisan route:cache
+php artisan view:cache
+sudo chown -R www-data:www-data storage bootstrap/cache
+sudo chmod -R 775 storage bootstrap/cache
+sudo systemctl reload php8.4-fpm
+sudo systemctl reload nginx
+```
+
+Always back up files, storage and database before deploying.

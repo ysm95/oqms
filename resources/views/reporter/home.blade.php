@@ -6,8 +6,8 @@
 @section('content')
   <section class="reporter-hero">
     <p class="eyebrow">QMS Reporter</p>
-    <h1>Submit a safety, quality, or risk concern</h1>
-    <p>Choose an authorized report type. Your receipt will show only reporter-visible updates.</p>
+    <h1>Report an observation or concern</h1>
+    <p>Start with Observation for Unsafe Act or Unsafe Condition. Your receipt shows only reporter-visible updates.</p>
   </section>
 
   <form class="reporter-search" method="GET" action="{{ route('reporter.home') }}">
@@ -22,7 +22,7 @@
 
     @forelse ($filteredReportTypes as $type)
       <a class="reporter-type-card" href="{{ route('reporter.create', $type->report_type_key) }}">
-        <span>{{ strtoupper(substr($type->module, 0, 3)) }}</span>
+        <span>{{ $type->report_type_key === 'observation' ? 'OBS' : strtoupper(substr($type->module, 0, 3)) }}</span>
         <strong>{{ $type->title }}</strong>
         <small>{{ $type->description }}</small>
       </a>

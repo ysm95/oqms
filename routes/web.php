@@ -18,6 +18,7 @@ use App\Http\Controllers\Qms\IntelligenceController;
 use App\Http\Controllers\Qms\NotificationController;
 use App\Http\Controllers\Qms\MyWorkController;
 use App\Http\Controllers\Qms\OccurrenceController;
+use App\Http\Controllers\Qms\ObservationController;
 use App\Http\Controllers\Qms\ObjectiveController;
 use App\Http\Controllers\Qms\ManagementReviewController;
 use App\Http\Controllers\Qms\PlatformController;
@@ -71,6 +72,13 @@ Route::middleware(['auth', 'internal.qms'])->group(function () {
     Route::get('reports/{report}', [ReportingController::class, 'show'])->name('reporting.show');
     Route::post('reports/{report}/accept', [ReportingController::class, 'accept'])->name('reporting.accept');
     Route::post('reports/{report}/reject', [ReportingController::class, 'reject'])->name('reporting.reject');
+
+    Route::get('observations', [ObservationController::class, 'index'])->name('observations.index');
+    Route::get('observations/create', [ObservationController::class, 'create'])->name('observations.create');
+    Route::post('observations', [ObservationController::class, 'store'])->name('observations.store');
+    Route::get('observations/{observation}', [ObservationController::class, 'show'])->name('observations.show');
+    Route::patch('observations/{observation}/review', [ObservationController::class, 'review'])->name('observations.review');
+    Route::post('observations/{observation}/actions', [ObservationController::class, 'storeAction'])->name('observations.actions.store');
 
     Route::resource('occurrences', OccurrenceController::class)->only(['index', 'create', 'store', 'show']);
     Route::patch('occurrences/{occurrence}/advance', [OccurrenceController::class, 'advance'])->name('occurrences.advance');

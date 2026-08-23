@@ -12,7 +12,7 @@
 
   <div class="content-grid">
     <article class="panel wide">
-      <div class="panel-header"><h2>Readiness map</h2><span class="status-pill">BRSD coverage</span></div>
+      <div class="panel-header"><h2>Readiness map</h2><span class="status-pill">Operational coverage</span></div>
       <ul class="coverage-list">
         @foreach ($readiness as $label => $ready)
           <li><strong>{{ $ready ? 'Ready' : 'Gap' }}</strong><span>{{ $label }}</span></li>

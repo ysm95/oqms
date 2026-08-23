@@ -33,7 +33,8 @@ class Phase18ReporterMobileBoundaryTest extends TestCase
 
         $this->get('/reporter')
             ->assertOk()
-            ->assertSee('Submit a safety, quality, or risk concern')
+            ->assertSee('Report an observation or concern')
+            ->assertSee('Observation')
             ->assertSee('Ground Occurrence Report')
             ->assertDontSee('Screening Queue')
             ->assertDontSee('Admin Center')

@@ -41,9 +41,11 @@ mysqldump -u qms_db_user -p qms_database > ~/backups/qms-$(date +%Y%m%d-%H%M%S)/
 
 ## Deployment
 
+For the existing VPS folder currently serving the Laravel app:
+
 ```bash
-cd /home/YOUR_USER/domains/qms.ysaidea.com/current
-git pull https://github.com/ysm95/QMS.git main
+cd /var/www/miniworld-pro/current/special-need
+git pull origin main
 composer install --no-dev --optimize-autoloader
 npm ci || npm install
 npm run build
@@ -57,6 +59,24 @@ php artisan queue:restart
 sudo systemctl reload php8.4-fpm
 sudo systemctl reload nginx
 ```
+
+For a release-folder deployment, use `deploy/hostinger_publish_qms.sh` after setting the required environment variables.
+
+## Smoke Test
+
+After deployment, confirm:
+
+- Login works.
+- Home opens.
+- My Work opens.
+- Reports opens.
+- Observation create path opens.
+- Unsafe Act and Unsafe Condition are visible.
+- Observation submits successfully.
+- HSE Review tab opens on an Observation record.
+- Action Tracker tab opens on an Observation record.
+- Notification page opens.
+- No debug error is visible.
 
 ## Queue Worker
 

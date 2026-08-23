@@ -13,29 +13,30 @@
     $role = auth()->user()->qms_role ?? 'QMS User';
     $canAdmin = in_array($role, ['Super Admin', 'Quality Admin', 'Safety Admin'], true);
     $navItems = [
-      ['label' => 'Home', 'route' => 'qms.dashboard', 'active' => ['qms.*']],
-      ['label' => 'My Work', 'route' => 'my-work.index', 'active' => ['my-work.*']],
-      ['label' => 'Reports', 'route' => 'reporting.index', 'active' => ['reporting.*', 'public-reports.*'], 'roles' => ['Super Admin', 'Safety Admin', 'Quality Admin', 'HSE Admin']],
-      ['label' => 'Safety & Risk', 'route' => 'incidents.index', 'active' => ['incidents.*', 'occurrences.*', 'investigations.*', 'risks.*', 'safety-promotions.*'], 'roles' => ['Super Admin', 'Safety Admin', 'HSE Admin', 'Action User']],
-      ['label' => 'Quality & Improvement', 'route' => 'nonconformances.index', 'active' => ['nonconformances.*', 'capa.*', 'actions.*', 'objectives.*', 'suppliers.*'], 'roles' => ['Super Admin', 'Quality Admin']],
-      ['label' => 'Assurance', 'route' => 'audits.index', 'active' => ['audits.*', 'inspections.*', 'compliance.*', 'management-reviews.*'], 'roles' => ['Super Admin', 'Quality Admin', 'Safety Admin']],
-      ['label' => 'Knowledge', 'route' => 'documents.index', 'active' => ['documents.*', 'training.*'], 'roles' => ['Super Admin', 'Quality Admin', 'Safety Admin', 'HSE Admin']],
-      ['label' => 'Analytics', 'route' => 'intelligence.index', 'active' => ['intelligence.*', 'search.*'], 'roles' => ['Super Admin', 'Quality Admin', 'Safety Admin', 'HSE Admin']],
-      ['label' => 'Administration', 'route' => 'admin.index', 'active' => ['admin.*', 'platform.*', 'ai.*'], 'admin' => true],
+      ['label' => 'Home', 'icon' => 'HM', 'route' => 'qms.dashboard', 'active' => ['qms.*']],
+      ['label' => 'My Work', 'icon' => 'MW', 'route' => 'my-work.index', 'active' => ['my-work.*']],
+      ['label' => 'Reports', 'icon' => 'RP', 'route' => 'reporting.index', 'active' => ['reporting.*', 'public-reports.*'], 'roles' => ['Super Admin', 'Safety Admin', 'Quality Admin', 'HSE Admin']],
+      ['label' => 'Safety', 'icon' => 'SF', 'route' => 'observations.index', 'active' => ['observations.*', 'incidents.*', 'occurrences.*', 'investigations.*', 'risks.*', 'safety-promotions.*'], 'roles' => ['Super Admin', 'Safety Admin', 'HSE Admin', 'Action User']],
+      ['label' => 'Quality', 'icon' => 'QL', 'route' => 'nonconformances.index', 'active' => ['nonconformances.*', 'capa.*', 'actions.*', 'objectives.*', 'suppliers.*'], 'roles' => ['Super Admin', 'Quality Admin']],
+      ['label' => 'Assurance', 'icon' => 'AS', 'route' => 'audits.index', 'active' => ['audits.*', 'inspections.*', 'compliance.*', 'management-reviews.*'], 'roles' => ['Super Admin', 'Quality Admin', 'Safety Admin']],
+      ['label' => 'Knowledge', 'icon' => 'KN', 'route' => 'documents.index', 'active' => ['documents.*', 'training.*'], 'roles' => ['Super Admin', 'Quality Admin', 'Safety Admin', 'HSE Admin']],
+      ['label' => 'Analytics', 'icon' => 'AN', 'route' => 'intelligence.index', 'active' => ['intelligence.*', 'search.*'], 'roles' => ['Super Admin', 'Quality Admin', 'Safety Admin', 'HSE Admin']],
+      ['label' => 'Administration', 'icon' => 'AD', 'route' => 'admin.index', 'active' => ['admin.*', 'platform.*', 'ai.*'], 'admin' => true],
     ];
     $secondaryNav = [
       'Reports' => [
         ['Reporting workspace', 'reporting.index'],
         ['Public intake', 'public-reports.index'],
       ],
-      'Safety & Risk' => [
+      'Safety' => [
+        ['Observations', 'observations.index'],
         ['Incidents', 'incidents.index'],
         ['Occurrences', 'occurrences.index'],
         ['Investigations', 'investigations.index'],
         ['Risks', 'risks.index'],
         ['Lessons learned', 'safety-promotions.index'],
       ],
-      'Quality & Improvement' => [
+      'Quality' => [
         ['Nonconformances', 'nonconformances.index'],
         ['CAPA', 'capa.index'],
         ['Actions', 'actions.index'],
@@ -70,7 +71,7 @@
           @continue(($item['admin'] ?? false) && ! $canAdmin)
           @continue(isset($item['roles']) && ! in_array($role, $item['roles'], true))
           @php $isActive = collect($item['active'])->contains(fn ($pattern) => request()->routeIs($pattern)); @endphp
-          <a class="nav-item {{ $isActive ? 'active' : '' }}" href="{{ route($item['route']) }}">{{ $item['label'] }}</a>
+          <a class="nav-item {{ $isActive ? 'active' : '' }}" href="{{ route($item['route']) }}"><span class="nav-icon">{{ $item['icon'] }}</span><span>{{ $item['label'] }}</span></a>
           @if ($isActive && isset($secondaryNav[$item['label']]))
             <div class="nav-sublist">
               @foreach ($secondaryNav[$item['label']] as [$label, $route])
@@ -98,11 +99,14 @@
           <details class="create-menu">
             <summary class="primary-button">Create</summary>
             <div>
+              <a href="{{ route('observations.create') }}"><span class="menu-icon">OBS</span>Observation</a>
               <a href="{{ route('reporting.index') }}#new-report">Report</a>
-              <a href="{{ route('actions.index') }}">Action</a>
-              <a href="{{ route('audits.index') }}">Audit</a>
+              <a href="{{ route('incidents.index') }}">Incident</a>
               <a href="{{ route('inspections.index') }}">Inspection</a>
+              <a href="{{ route('audits.index') }}">Audit</a>
               <a href="{{ route('nonconformances.index') }}">NCR</a>
+              <a href="{{ route('capa.index') }}">CAPA</a>
+              <a href="{{ route('actions.index') }}">Action</a>
             </div>
           </details>
           <a class="secondary-button" href="{{ route('feedback.index') }}">Help</a>

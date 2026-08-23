@@ -11,6 +11,24 @@ class QmsReporterProductSeeder extends Seeder
 {
     public function run(): void
     {
+        QmsReportTypeRule::updateOrCreate(['report_type_key' => 'observation'], [
+            'title' => 'Observation',
+            'type' => 'Observation',
+            'module' => 'Safety',
+            'priority' => 'Safety',
+            'description' => 'Report an Unsafe Act or Unsafe Condition for HSE review.',
+            'published' => true,
+            'requires_auth' => false,
+            'supports_anonymous' => true,
+            'allowed_roles' => ['Reporter', 'Public', 'Safety Admin', 'Quality Admin', 'Super Admin'],
+            'allowed_departments' => [],
+            'form_version' => 1,
+            'effective_from' => now()->subDay()->toDateString(),
+            'effective_until' => null,
+            'sort_order' => 1,
+            'status' => 'Active',
+        ]);
+
         foreach (ReportingController::reportTypes() as $key => $type) {
             $reporterFacing = in_array($key, ['air-safety', 'ground-occurrence', 'hazard', 'confidential-safety'], true);
             $publicFacing = in_array($key, ['ground-occurrence', 'hazard', 'confidential-safety'], true);
@@ -39,6 +57,15 @@ class QmsReporterProductSeeder extends Seeder
         QmsNumberingRule::updateOrCreate(['code' => 'NUM-PUB'], [
             'module' => 'Reporter Intake',
             'prefix' => 'PUB',
+            'pattern' => '{PREFIX}-{YYYY}-{SEQ:6}',
+            'next_sequence' => 1,
+            'reset_annually' => true,
+            'status' => 'Active',
+        ]);
+
+        QmsNumberingRule::updateOrCreate(['code' => 'NUM-OBS'], [
+            'module' => 'Observations',
+            'prefix' => 'OBS',
             'pattern' => '{PREFIX}-{YYYY}-{SEQ:6}',
             'next_sequence' => 1,
             'reset_annually' => true,

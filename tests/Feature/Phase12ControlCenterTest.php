@@ -34,7 +34,7 @@ class Phase12ControlCenterTest extends TestCase
         $this->assertDatabaseHas('qms_numbering_rules', ['code' => 'NUM-INC', 'prefix' => 'INC']);
         $this->assertDatabaseHas('qms_configuration_packages', ['code' => 'CFG-BASELINE-001', 'status' => 'Validated']);
         $this->assertSame(6, QmsModuleLicense::count());
-        $this->assertSame(7, QmsNumberingRule::count());
+        $this->assertSame(8, QmsNumberingRule::count());
         $this->assertSame(1, QmsSystemSetting::count());
     }
 

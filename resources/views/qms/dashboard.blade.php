@@ -8,6 +8,7 @@
       <h1>What needs attention</h1>
     </div>
     <div class="button-row">
+      <a class="secondary-button" href="{{ route('observations.index') }}">Observations</a>
       <a class="secondary-button" href="{{ route('public-reports.index') }}">Public intake</a>
       <a class="primary-button" href="{{ route('reporting.index') }}">Review reports</a>
     </div>
@@ -59,7 +60,7 @@
           <div class="lane">
             <h3>{{ $stage }}</h3>
             @foreach ($occurrences->where('workflow_stage', $stage)->take(3) as $occurrence)
-              <a class="work-card {{ $occurrence->risk_rating === 'High' ? 'high' : '' }}" href="{{ route('occurrences.show', $occurrence) }}">
+              <a class="work-card {{ $occurrence->risk_rating === 'High' ? 'high' : '' }}" href="{{ $occurrence->record_family === 'Observation' ? route('observations.show', $occurrence) : route('occurrences.show', $occurrence) }}">
                 {{ $occurrence->title }}<span>{{ $occurrence->reference }}</span>
               </a>
             @endforeach
@@ -75,6 +76,7 @@
       <div class="panel-header"><h2>v7 product coverage</h2><span class="status-pill success">Core</span></div>
       <ul class="coverage-list">
         <li><strong>SHELL</strong><span>One QMS shell with role-aware navigation, search, create, help and notifications</span></li>
+        <li><strong>OBS</strong><span>Observations capture Unsafe Act and Unsafe Condition reports through simple pages and HSE review</span></li>
         <li><strong>TRUST</strong><span>Reporter experience protects confidential/anonymous submissions and hides internal workflow</span></li>
         <li><strong>REPORT</strong><span>Original report remains separate from enriched incident and safety records</span></li>
         <li><strong>ASSURE</strong><span>Audit, inspection, finding, NCR and CAPA are separate controlled concepts</span></li>

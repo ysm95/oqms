@@ -78,7 +78,7 @@ class Phase2CoreTest extends TestCase
             'status' => 'Submitted',
         ]);
         $this->assertDatabaseMissing('qms_incidents', ['title' => 'Dispatch fuel planning concern']);
-        $this->assertSame(1, QmsOccurrence::count());
+        $this->assertSame(2, QmsOccurrence::count());
         $this->assertSame(2, QmsReport::count());
     }
 

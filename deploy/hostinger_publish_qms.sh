@@ -5,7 +5,7 @@ set -euo pipefail
 # Run this ON THE VPS after reviewing all variables below.
 #
 # Goal:
-# - Publish https://qms.ysaidea.com from https://github.com/ysm95/QMS.git
+# - Publish https://qms.ysaidea.com from https://github.com/ysm95/oqms.git
 # - Back up the current Miniworld files before switching.
 # - Use release folders so rollback is possible.
 #
@@ -16,13 +16,13 @@ set -euo pipefail
 #   export DB_PASSWORD="qms_db_password"
 #
 # Optional:
-#   export REPO="https://github.com/ysm95/QMS.git"
+#   export REPO="https://github.com/ysm95/oqms.git"
 #   export DOMAIN="qms.ysaidea.com"
 #   export MINI_DOMAIN="miniworld.ysaidea.com"
 #   export PHP_FPM_SERVICE="php8.4-fpm"
 #   export WEB_USER="www-data"
 
-REPO="${REPO:-https://github.com/ysm95/QMS.git}"
+REPO="${REPO:-https://github.com/ysm95/oqms.git}"
 DOMAIN="${DOMAIN:-qms.ysaidea.com}"
 MINI_DOMAIN="${MINI_DOMAIN:-miniworld.ysaidea.com}"
 HOSTINGER_USER="${HOSTINGER_USER:-$USER}"

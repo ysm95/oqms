@@ -146,6 +146,13 @@ class ReporterController extends Controller
             'anonymous' => ['nullable', 'boolean'],
             'confidential' => ['nullable', 'boolean'],
             'description' => ['required', 'string', 'max:5000'],
+            'observation_type' => ['nullable', 'in:Unsafe Act,Unsafe Condition'],
+            'area' => ['nullable', 'string', 'max:160'],
+            'unit' => ['nullable', 'string', 'max:120'],
+            'potential_consequence' => ['nullable', 'string', 'max:3000'],
+            'action_taken' => ['nullable', 'array'],
+            'action_taken.*' => ['string', 'max:160'],
+            'immediate_corrective_action' => ['nullable', 'string', 'max:3000'],
             'client_context' => ['nullable', 'array'],
         ]);
     }
@@ -176,6 +183,12 @@ class ReporterController extends Controller
                     'report_type_title' => $rule->title,
                     'priority' => $rule->priority,
                     'module' => $rule->module,
+                    'observation_type' => $data['observation_type'] ?? null,
+                    'area' => $data['area'] ?? null,
+                    'unit' => $data['unit'] ?? null,
+                    'potential_consequence' => $data['potential_consequence'] ?? null,
+                    'action_taken' => $data['action_taken'] ?? [],
+                    'immediate_corrective_action' => $data['immediate_corrective_action'] ?? null,
                 ],
                 'client_context' => array_merge($data['client_context'] ?? [], [
                     'channel' => $channel,
