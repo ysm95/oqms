@@ -14,63 +14,6 @@
     </div>
   </div>
 
-  {{-- QMS portfolio theme start --}}
-  <section class="portfolio-map" aria-label="QMS application portfolio">
-    <div class="portfolio-map__header">
-      <div>
-        <p class="eyebrow">QMS application portfolio</p>
-        <div class="portfolio-map__title">Broad Application Portfolio</div>
-      </div>
-      <div class="portfolio-map__badge">Advanced Analytics</div>
-    </div>
-    <div class="portfolio-map__body">
-      <div class="portfolio-map__strap">Core applications and application sets</div>
-      <div class="portfolio-map__groups">
-        <div class="portfolio-map__group">
-          <h3>Core applications</h3>
-          <div class="portfolio-map__tiles">
-            <a class="portfolio-tile portfolio-tile--green" href="{{ route('documents.index') }}">Document Control</a>
-            <a class="portfolio-tile portfolio-tile--green" href="{{ route('training.index') }}">Training Management</a>
-            <a class="portfolio-tile portfolio-tile--green" href="{{ route('audits.index') }}">Audit Management</a>
-            <a class="portfolio-tile portfolio-tile--green" href="{{ route('capa.index') }}">Corrective Action</a>
-            <a class="portfolio-tile portfolio-tile--green" href="{{ route('risks.index') }}">Risk Register</a>
-            <a class="portfolio-tile portfolio-tile--green" href="{{ route('intelligence.index') }}">Insights</a>
-          </div>
-        </div>
-        <div class="portfolio-map__group">
-          <h3>Application sets</h3>
-          <div class="portfolio-map__tiles">
-            <a class="portfolio-tile" href="{{ route('observations.index') }}">Health & Safety</a>
-            <a class="portfolio-tile" href="{{ route('nonconformances.index') }}">Nonconformance</a>
-            <a class="portfolio-tile" href="{{ route('suppliers.index') }}">Supply Chain Quality</a>
-            <a class="portfolio-tile" href="{{ route('inspections.index') }}">Inspections</a>
-            <a class="portfolio-tile" href="{{ route('compliance.index') }}">Compliance</a>
-            <a class="portfolio-tile" href="{{ route('reporting.index') }}">Quality Events</a>
-          </div>
-        </div>
-      </div>
-      <div class="portfolio-map__platform">
-        <strong>QMS Platform</strong>
-        <span>Integration / APIs</span>
-        <span>Configuration</span>
-        <span>Reporting</span>
-        <span>Access Control</span>
-        <span>Audit Trail</span>
-        <span>Mobile</span>
-      </div>
-    </div>
-  </section>
-
-  <div class="module-launch-grid" aria-label="Quick module launch">
-    <a class="module-launch" href="{{ route('observations.create') }}"><span>OBS</span><div><strong>Observation</strong><small>Unsafe Act / Unsafe Condition</small></div></a>
-    <a class="module-launch" href="{{ route('reporting.index') }}"><span>REP</span><div><strong>Reports</strong><small>Review and accept / reject</small></div></a>
-    <a class="module-launch" href="{{ route('actions.index') }}"><span>ACT</span><div><strong>Actions</strong><small>Tracker and follow-up</small></div></a>
-    <a class="module-launch" href="{{ route('audits.index') }}"><span>AUD</span><div><strong>Audits</strong><small>Assurance schedule</small></div></a>
-    <a class="module-launch" href="{{ route('nonconformances.index') }}"><span>NCR</span><div><strong>NCR</strong><small>Nonconformance handling</small></div></a>
-    <a class="module-launch" href="{{ route('capa.index') }}"><span>CAPA</span><div><strong>CAPA</strong><small>Corrective action</small></div></a>
-  </div>
-  {-- QMS portfolio theme end --}
-
   <div class="metric-grid">
     <article class="metric"><span>Open reports</span><strong>{{ $metrics['openReports'] }}</strong><small>Screening backlog</small></article>
     <article class="metric"><span>Open incidents</span><strong>{{ $metrics['openIncidents'] }}</strong><small>Accepted reports only</small></article>
