@@ -1,177 +1,141 @@
 @extends('qms.layout', ['title' => 'QMS Dashboard'])
 
 @section('content')
-<section class="view active-view">
-  <div class="page-title">
+<section class="view active-view home-dashboard">
+  <div class="page-title dashboard-title">
     <div>
       <p class="eyebrow">Role-aware home</p>
       <h1>What needs attention</h1>
     </div>
     <div class="button-row">
-      <a class="secondary-button" href="{{ route('observations.index') }}">Observations</a>
-      <a class="secondary-button" href="{{ route('public-reports.index') }}">Public intake</a>
+      <a class="secondary-button" href="{{ route('my-work.index') }}">My Work</a>
+      <a class="secondary-button" href="{{ route('observations.create') }}">Observation</a>
+      <a class="secondary-button" href="{{ route('permits.create') }}">Permit</a>
       <a class="primary-button" href="{{ route('reporting.index') }}">Review reports</a>
     </div>
   </div>
 
-  <div class="metric-grid">
-    <article class="metric"><span>Open reports</span><strong>{{ $metrics['openReports'] }}</strong><small>Screening backlog</small></article>
-    <article class="metric"><span>Open incidents</span><strong>{{ $metrics['openIncidents'] }}</strong><small>Accepted reports only</small></article>
-    <article class="metric"><span>Open occurrences</span><strong>{{ $metrics['openOccurrences'] }}</strong><small>Legacy workspace</small></article>
-    <article class="metric"><span>Overdue CAPA</span><strong>{{ $metrics['overdueActions'] }}</strong><small>Owner action queue</small></article>
-    <article class="metric"><span>High risks</span><strong>{{ $metrics['highRisks'] }}</strong><small>Risk register</small></article>
-    <article class="metric"><span>Open findings</span><strong>{{ $metrics['openFindings'] }}</strong><small>Audit and inspection</small></article>
-    <article class="metric"><span>Open NCR</span><strong>{{ $metrics['openNcr'] }}</strong><small>Requirement evidence</small></article>
-    <article class="metric"><span>Open CAPA</span><strong>{{ $metrics['openCapa'] }}</strong><small>Effectiveness pending</small></article>
-    <article class="metric"><span>Compliance changes</span><strong>{{ $metrics['complianceChanges'] }}</strong><small>Impact assessment</small></article>
-    <article class="metric"><span>Audit readiness</span><strong>{{ $metrics['auditReadiness'] }}%</strong><small>Evidence mapping</small></article>
-    <article class="metric"><span>Unread alerts</span><strong>{{ $metrics['unreadNotifications'] }}</strong><small>Notification inbox</small></article>
-    <article class="metric"><span>Public intake</span><strong>{{ $metrics['publicReports'] }}</strong><small>Open external reports</small></article>
-    <article class="metric"><span>Training due</span><strong>{{ $metrics['trainingDue'] }}</strong><small>Next 45 days</small></article>
-    <article class="metric"><span>Supplier watch</span><strong>{{ $metrics['supplierWatch'] }}</strong><small>High risk vendors</small></article>
-    <article class="metric"><span>Report designs</span><strong>{{ $metrics['reportDesigns'] }}</strong><small>Published layouts</small></article>
-    <article class="metric"><span>Notification rules</span><strong>{{ $metrics['notificationDesigns'] }}</strong><small>Published templates</small></article>
+  <div class="dashboard-focus">
+    <a class="focus-card" href="{{ route('reporting.index') }}">
+      <span>Reports</span>
+      <strong>{{ $metrics['openReports'] }}</strong>
+      <small>awaiting screening</small>
+    </a>
+    <a class="focus-card" href="{{ route('incidents.index') }}">
+      <span>Incidents</span>
+      <strong>{{ $metrics['openIncidents'] }}</strong>
+      <small>open accepted events</small>
+    </a>
+    <a class="focus-card" href="{{ route('permits.index') }}">
+      <span>Permits</span>
+      <strong>{{ $metrics['activePermits'] }}</strong>
+      <small>approved, active or suspended</small>
+    </a>
+    <a class="focus-card urgent" href="{{ route('actions.index') }}">
+      <span>Overdue actions</span>
+      <strong>{{ $metrics['overdueActions'] }}</strong>
+      <small>actions past due</small>
+    </a>
   </div>
 
-  <div class="content-grid">
-    <article class="panel wide">
-      <div class="panel-header"><h2>Reports, incidents and assurance</h2><span class="status-pill">Original report preserved</span></div>
-      <div class="content-grid compact-grid">
-        <div>
-          <h3>Recent reports</h3>
-          <ul class="timeline">
-            @foreach ($reports as $report)
-              <li><strong><a href="{{ route('reporting.show', $report) }}">{{ $report->reference }}</a></strong><span>{{ $report->status }} - {{ $report->title }}</span></li>
-            @endforeach
-          </ul>
-        </div>
-        <div>
-          <h3>Recent incidents</h3>
-          <ul class="timeline">
-            @foreach ($incidents as $incident)
-              <li><strong><a href="{{ route('incidents.show', $incident) }}">{{ $incident->reference }}</a></strong><span>{{ $incident->workflow_stage }} - {{ $incident->title }}</span></li>
-            @endforeach
-          </ul>
-        </div>
+  <div class="dashboard-layout">
+    <article class="panel wide dashboard-panel">
+      <div class="panel-header">
+        <h2>Priority work</h2>
+        <a class="secondary-button" href="{{ route('my-work.index') }}">Open queue</a>
       </div>
-      <h3>Safety workflow board</h3>
-      <div class="kanban">
+      <div class="priority-list">
+        @forelse ($priorityReports as $report)
+          <a href="{{ route('reporting.show', $report) }}">
+            <span class="status-pill">Report</span>
+            <strong>{{ $report->reference }}</strong>
+            <span>{{ $report->title }}</span>
+            <small>{{ $report->status }}</small>
+          </a>
+        @empty
+          <div class="quiet-row"><strong>No reports waiting</strong><span>Screening queue is clear.</span></div>
+        @endforelse
+
+        @forelse ($priorityPermits as $permit)
+          <a href="{{ route('permits.show', $permit) }}">
+            <span class="status-pill">Permit</span>
+            <strong>{{ $permit->reference }}</strong>
+            <span>{{ $permit->title }}</span>
+            <small>{{ $permit->status }}</small>
+          </a>
+        @empty
+          <div class="quiet-row"><strong>No permits waiting</strong><span>Control of Work has no immediate queue.</span></div>
+        @endforelse
+
+        @forelse ($priorityActions as $action)
+          <a href="{{ route('actions.index', ['search' => $action->reference]) }}">
+            <span class="status-pill">Action</span>
+            <strong>{{ $action->reference }}</strong>
+            <span>{{ $action->title }}</span>
+            <small>{{ $action->priority }} · {{ $action->status }}</small>
+          </a>
+        @empty
+          <div class="quiet-row"><strong>No open actions</strong><span>There are no action records in the active queue.</span></div>
+        @endforelse
+      </div>
+    </article>
+
+    <aside class="panel dashboard-panel">
+      <div class="panel-header">
+        <h2>Operational signals</h2>
+        <span class="status-pill">Live records</span>
+      </div>
+      <ul class="signal-list compact-signals">
+        @foreach ($workload as $label => $value)
+          <li><span>{{ $label }}</span><strong>{{ $value }}</strong></li>
+        @endforeach
+      </ul>
+    </aside>
+
+    <article class="panel wide dashboard-panel">
+      <div class="panel-header">
+        <h2>Safety flow</h2>
+        <a class="secondary-button" href="{{ route('observations.index') }}">Observations</a>
+      </div>
+      <div class="compact-flow">
         @foreach ($workflowStages as $stage)
-          <div class="lane">
-            <h3>{{ $stage }}</h3>
-            @foreach ($occurrences->where('workflow_stage', $stage)->take(3) as $occurrence)
-              <a class="work-card {{ $occurrence->risk_rating === 'High' ? 'high' : '' }}" href="{{ $occurrence->record_family === 'Observation' ? route('observations.show', $occurrence) : route('occurrences.show', $occurrence) }}">
-                {{ $occurrence->title }}<span>{{ $occurrence->reference }}</span>
-              </a>
-            @endforeach
-            @if ($occurrences->where('workflow_stage', $stage)->isEmpty())
-              <div class="empty-lane">No records</div>
-            @endif
+          <div>
+            <strong>{{ $stage }}</strong>
+            <span>{{ $occurrences->where('workflow_stage', $stage)->count() }}</span>
           </div>
         @endforeach
       </div>
-    </article>
-
-    <article class="panel">
-      <div class="panel-header"><h2>v7 product coverage</h2><span class="status-pill success">Core</span></div>
-      <ul class="coverage-list">
-        <li><strong>SHELL</strong><span>One QMS shell with role-aware navigation, search, create, help and notifications</span></li>
-        <li><strong>OBS</strong><span>Observations capture Unsafe Act and Unsafe Condition reports through simple pages and HSE review</span></li>
-        <li><strong>TRUST</strong><span>Reporter experience protects confidential/anonymous submissions and hides internal workflow</span></li>
-        <li><strong>REPORT</strong><span>Original report remains separate from enriched incident and safety records</span></li>
-        <li><strong>ASSURE</strong><span>Audit, inspection, finding, NCR and CAPA are separate controlled concepts</span></li>
-        <li><strong>STD</strong><span>Standards and taxonomy are versioned records, not hard-coded source constants</span></li>
-        <li><strong>AI</strong><span>AI remains embedded, permission-aware and blocked until paid secured provider approval</span></li>
-      </ul>
-    </article>
-
-    <article class="panel">
-      <div class="panel-header"><h2>Assurance queue</h2><a class="secondary-button" href="{{ route('audits.index') }}">Audits</a></div>
-      <ul class="timeline">
-        @foreach ($audits as $audit)
-          <li><strong>{{ $audit->reference }}</strong><span>{{ $audit->title }} - {{ $audit->status }}</span></li>
-        @endforeach
-      </ul>
-    </article>
-
-    <article class="panel">
-      <div class="panel-header"><h2>Inspection findings</h2><a class="secondary-button" href="{{ route('inspections.index') }}">Inspections</a></div>
-      <ul class="timeline">
-        @forelse ($findings as $finding)
-          <li><strong>{{ $finding->reference }}</strong><span>{{ $finding->finding_type }} - {{ $finding->status }}</span></li>
+      <div class="simple-record-list">
+        @forelse ($occurrences->take(4) as $occurrence)
+          <a href="{{ $occurrence->record_family === 'Observation' ? route('observations.show', $occurrence) : route('occurrences.show', $occurrence) }}">
+            <strong>{{ $occurrence->reference }}</strong>
+            <span>{{ $occurrence->title }}</span>
+            <small>{{ $occurrence->workflow_stage }} · {{ $occurrence->risk_rating }}</small>
+          </a>
         @empty
-          <li><strong>Clear</strong><span>No open findings require attention.</span></li>
+          <div class="quiet-row"><strong>No open safety records</strong><span>New reports and observations will appear here.</span></div>
         @endforelse
-      </ul>
+      </div>
     </article>
 
-    <article class="panel">
-      <div class="panel-header"><h2>Lessons learned</h2><a class="secondary-button" href="{{ route('safety-promotions.index') }}">Lessons</a></div>
-      <ul class="timeline">
-        @forelse ($lessons as $lesson)
-          <li><strong>{{ $lesson->reference }}</strong><span>{{ $lesson->approval_status }} - {{ $lesson->title }}</span></li>
-        @empty
-          <li><strong>No draft lessons</strong><span>Safety promotion starts after confidentiality review.</span></li>
-        @endforelse
+    <aside class="panel dashboard-panel">
+      <div class="panel-header">
+        <h2>System readiness</h2>
+        <a class="secondary-button" href="{{ route('platform.index') }}">Configure</a>
+      </div>
+      <ul class="readiness-list">
+        <li><span>Report designs</span><strong>{{ $metrics['reportDesigns'] }}</strong><small>Published layouts</small></li>
+        <li><span>Notification rules</span><strong>{{ $metrics['notificationDesigns'] }}</strong><small>Published templates</small></li>
+        <li><span>High risks</span><strong>{{ $metrics['highRisks'] }}</strong><small>Risk register</small></li>
+        <li><span>Open NCR / CAPA</span><strong>{{ $metrics['openNcr'] + $metrics['openCapa'] }}</strong><small>Quality follow-up</small></li>
       </ul>
-    </article>
-
-    <article class="panel">
-      <div class="panel-header"><h2>Risk watch</h2><a class="secondary-button" href="{{ route('risks.index') }}">Risks</a></div>
-      <ul class="timeline">
-        @foreach ($risks as $risk)
-          <li><strong>{{ $risk->rating }}</strong><span>{{ $risk->hazard }} - {{ $risk->owner }}</span></li>
-        @endforeach
-      </ul>
-    </article>
-
-    <article class="panel">
-      <div class="panel-header"><h2>Controlled documents</h2><a class="secondary-button" href="{{ route('documents.index') }}">Documents</a></div>
-      <ul class="timeline">
-        @foreach ($documents as $document)
-          <li><strong>{{ $document->reference }}</strong><span>{{ $document->title }} - {{ $document->status }}</span></li>
-        @endforeach
-      </ul>
-    </article>
-
-    <article class="panel">
-      <div class="panel-header"><h2>Notifications</h2><a class="secondary-button" href="{{ route('notifications.index') }}">Inbox</a></div>
-      <ul class="timeline">
-        @foreach ($notifications as $notification)
-          <li><strong>{{ $notification->title }}</strong><span>{{ $notification->source_reference ?? 'QMS' }} - {{ $notification->created_at->format('Y-m-d H:i') }}</span></li>
-        @endforeach
-      </ul>
-    </article>
-
-    <article class="panel">
-      <div class="panel-header"><h2>Public reports</h2><a class="secondary-button" href="{{ route('public-reports.index') }}">Review</a></div>
-      <ul class="timeline">
-        @foreach ($publicReports as $report)
-          <li><strong>{{ $report->reference }}</strong><span>{{ $report->category }} - {{ $report->confidential ? 'Confidential' : $report->status }}</span></li>
-        @endforeach
-      </ul>
-    </article>
-
-    <article class="panel">
-      <div class="panel-header"><h2>Training watch</h2><a class="secondary-button" href="{{ route('training.index') }}">Training</a></div>
-      <ul class="timeline">
-        @foreach ($training as $record)
-          <li><strong>{{ $record->reference }}</strong><span>{{ $record->person_name }} - {{ $record->status }}</span></li>
-        @endforeach
-      </ul>
-    </article>
-
-    <article class="panel">
-      <div class="panel-header"><h2>Objectives / suppliers</h2><a class="secondary-button" href="{{ route('objectives.index') }}">Objectives</a></div>
-      <ul class="timeline">
-        @foreach ($objectives as $objective)
-          <li><strong>{{ $objective->reference }}</strong><span>{{ $objective->title }} - {{ $objective->status }}</span></li>
-        @endforeach
-        @foreach ($suppliers as $supplier)
-          <li><strong>{{ $supplier->reference }}</strong><span>{{ $supplier->name }} - {{ $supplier->risk_rating }}</span></li>
-        @endforeach
-      </ul>
-    </article>
+      <div class="coverage-strip" aria-label="Product coverage">
+        <span>SHELL</span>
+        <span>OBS</span>
+        <span>REPORT</span>
+        <span>ASSURE</span>
+      </div>
+    </aside>
   </div>
 </section>
 @endsection
